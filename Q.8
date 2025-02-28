@@ -1,0 +1,65 @@
+<?php
+$veiculos = [
+    ["modelo" => "Uno", "fabricante" => "Fiat", "cor" => "prata", "portas" => 4, "ano" => 2014],
+    ["modelo" => "Fiesta", "fabricante" => "Ford", "cor" => "preto", "portas" => 2, "ano" => 2015],
+    ["modelo" => "Doblo", "fabricante" => "Fiat", "cor" => "verde", "portas" => 4, "ano" => 2013],
+    ["modelo" => "Celta", "fabricante" => "GM", "cor" => "preto", "portas" => 2, "ano" => 2012],
+    ["modelo" => "March", "fabricante" => "Nissan", "cor" => "prata", "portas" => 2, "ano" => 2015],
+    ["modelo" => "Corsa", "fabricante" => "GM", "cor" => "branco", "portas" => 2, "ano" => 2010],
+    ["modelo" => "Ranger", "fabricante" => "Ford", "cor" => "prata", "portas" => 4, "ano" => 2012],
+    ["modelo" => "Trail Blazer", "fabricante" => "GM", "cor" => "branco", "portas" => 4, "ano" => 2014],
+    ["modelo" => "Ecosport", "fabricante" => "Ford", "cor" => "preto", "portas" => 4, "ano" => 2013],
+    ["modelo" => "Tucson", "fabricante" => "Hyundai", "cor" => "vinho", "portas" => 4, "ano" => 2012]
+];
+
+$modelos_anos = [];
+$veiculos_prata = [];
+$veiculos_cor_portas = [];
+$veiculos_ford = [];
+$veiculos_ano_2013_ou_mais = [];
+
+foreach ($veiculos as $veiculo) {
+    $modelos_anos[] = "{$veiculo['modelo']} - {$veiculo['ano']}";
+    
+    if ($veiculo["cor"] == "prata") {
+        $veiculos_prata[] = $veiculo["modelo"];
+    }
+    
+    $veiculos_cor_portas[] = "{$veiculo['modelo']} - Cor: {$veiculo['cor']} - Portas: {$veiculo['portas']}";
+    
+    if ($veiculo["fabricante"] == "Ford") {
+        $veiculos_ford[] = $veiculo["modelo"];
+    }
+    
+    if ($veiculo["ano"] >= 2013) {
+        $veiculos_ano_2013_ou_mais[] = "{$veiculo['modelo']} - {$veiculo['ano']}";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Veículos</title>
+</head>
+<body>
+<h2>Resultados</h2>
+
+<h3>a) Todos os modelos e os anos dos veículos</h3>
+<p><?= implode("<br>", $modelos_anos) ?></p>
+
+<h3>b) Todos os veículos cor prata</h3>
+<p><?= !empty($veiculos_prata) ? implode(", ", $veiculos_prata) : "Nenhum veículo prata" ?></p>
+
+<h3>c) Todos os veículos, cor e quantidade de portas</h3>
+<p><?= implode("<br>", $veiculos_cor_portas) ?></p>
+
+<h3>d) Todos os veículos da Ford</h3>
+<p><?= !empty($veiculos_ford) ? implode(", ", $veiculos_ford) : "Nenhum veículo da Ford" ?></p>
+
+<h3>e) Todos os veículos com ano de fabricação igual ou superior a 2013</h3>
+<p><?= !empty($veiculos_ano_2013_ou_mais) ? implode("<br>", $veiculos_ano_2013_ou_mais) : "Nenhum veículo fabricado em 2013 ou mais" ?></p>
+</body>
+</html>
