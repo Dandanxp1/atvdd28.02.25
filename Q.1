@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Alunos</title>
+</head>
+<body>
+<h1>Cadastro de Alunos</h1>
+<form action="index.php" method="POST">
+    <?php for ($i = 1; $i <= 10; $i++): ?>
+        <fieldset>
+            <legend>Aluno <?php echo $i; ?></legend>
+            Nome: <input type="text" name="nome<?php echo $i; ?>" required><br>
+            Nota: <input type="number" name="nota<?php echo $i; ?>" step="0.01" required><br><br>
+        </fieldset>
+    <?php endfor; ?>
+    <input type="submit" value="Enviar">
+</form>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $alunos = [];
+    $notaTotal = 0;
+    $maiorNota = -1;
+    $nomeMaiorNota = "";
+
+    for ($i = 1; $i <= 10; $i++) {
+        $nome = $_POST["nome$i"];
+        $nota = floatval($_POST["nota$i"]);
+
+        $alunos[] = ['nome' => $nome, 'nota' => $nota];
+
+        $notaTotal += $nota;
+
+        if ($nota > $maiorNota) {
+            $maiorNota = $nota;
+            $nomeMaiorNota = $nome;
+        }
+    }
+    
+    $media = $notaTotal / count($alunos);
+
+    echo "<h2>Resultados:</h2>";
+    echo "A média da nota da classe é: " . number_format($media, 2) . "<br>";
+    echo "O aluno com a maior nota é: " . $nomeMaiorNota . " com a nota " . $maiorNota . "<br>";
+}
+?>
+</body>
+</html>
