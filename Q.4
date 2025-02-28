@@ -1,1 +1,28 @@
-
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $vetor_a = $_POST['vetor_a'];
+    $vetor_b = $_POST['vetor_b'];
+    
+    echo "<h3>Resultado da multiplicação dos vetores:</h3>";
+    for ($i = 0; $i < 10; $i++) {
+        $resultado = $vetor_a[$i] * $vetor_b[$i];
+        echo "vetor_a[$i] * vetor_b[$i] = $resultado<br>";
+    }
+} else {
+    echo "<h3>Digite os 10 valores para o vetor A e B:</h3>";
+    echo '<form method="POST" action="">';
+    
+    echo "<h4>Vetor A:</h4>";
+    for ($i = 0; $i < 10; $i++) {
+        echo "vetor_a[$i]: <input type='number' name='vetor_a[]' required><br>";
+    }
+    
+    echo "<h4>Vetor B:</h4>";
+    for ($i = 0; $i < 10; $i++) {
+        echo "vetor_b[$i]: <input type='number' name='vetor_b[]' required><br>";
+    }
+    
+    echo "<br><input type='submit' value='Enviar'>";
+    echo '</form>';
+}
+?>
