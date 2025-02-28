@@ -1,0 +1,34 @@
+<?php
+$valores = [];
+$mensagem = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $valores = $_POST["valores"];
+
+    if (count($valores) == 10) {
+        $mensagem = "Valores na ordem inversa: " . implode(", ", array_reverse($valores));
+    } else {
+        $mensagem = "Por favor, insira exatamente 10 valores.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordem Inversa</title>
+</head>
+<body>
+<form method="post">
+    <?php for ($i = 1; $i <= 10; $i++): ?>
+        <label>Valor <?= $i ?>:</label>
+        <input type="text" name="valores[]" required><br>
+    <?php endfor; ?>
+    <button type="submit">Enviar</button>
+</form>
+
+<?php if (!empty($mensagem)) echo "<p>$mensagem</p>"; ?>
+</body>
+</html>
