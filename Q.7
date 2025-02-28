@@ -1,0 +1,74 @@
+<?php
+$pessoas = [];
+$nomes_idades = $moram_em_santos = $maiores_de_18 = [];
+$qtd_masculino = 0;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pessoas"])) {
+    $pessoas = $_POST["pessoas"];
+
+    foreach ($pessoas as $pessoa) {
+        $nome = $pessoa["nome"];
+        $cidade = $pessoa["cidade"];
+        $idade = intval($pessoa["idade"]);
+        $sexo = strtolower($pessoa["sexo"]);
+        
+        $nomes_idades[] = "$nome - $idade anos";
+        
+        if (strtolower($cidade) == "santos") {
+            $moram_em_santos[] = $nome;
+        }
+        
+        if ($idade > 18) {
+            $maiores_de_18[] = $nome;
+        }
+        
+        if ($sexo == "masculino") {
+            $qtd_masculino++;
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pessoas</title>
+</head>
+<body>
+<h2>Cadastro de 10 Pessoas</h2>
+<form method="post">
+    <?php for ($i = 1; $i <= 10; $i++): ?>
+        <h3>Pessoa <?= $i ?></h3>
+        <label>Nome:</label>
+        <input type="text" name="pessoas[<?= $i ?>][nome]" required><br>
+        <label>Cidade:</label>
+        <input type="text" name="pessoas[<?= $i ?>][cidade]" required><br>
+        <label>Idade:</label>
+        <input type="number" name="pessoas[<?= $i ?>][idade]" required><br>
+        <label>Sexo:</label>
+        <select name="pessoas[<?= $i ?>][sexo]" required>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+        </select><br><br>
+    <?php endfor; ?>
+    <button type="submit">Cadastrar</button>
+</form>
+
+<?php if (!empty($pessoas)): ?>
+    <h2>Resultados</h2>
+    <h3>1. Lista de nomes e idades</h3>
+    <p><?= implode("<br>", $nomes_idades) ?></p>
+
+    <h3>2. Quem mora em Santos</h3>
+    <p><?= !empty($moram_em_santos) ? implode(", ", $moram_em_santos) : "Nenhum cadastrado" ?></p>
+
+    <h3>3. Quem tem mais de 18 anos</h3>
+    <p><?= !empty($maiores_de_18) ? implode(", ", $maiores_de_18) : "Nenhum cadastrado" ?></p>
+
+    <h3>4. Quantidade de pessoas do sexo masculino</h3>
+    <p><?= $qtd_masculino ?> pessoa(s)</p>
+<?php endif; ?>
+</body>
+</html>
