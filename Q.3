@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplicação de Números</title>
+</head>
+<body>
+<h1>Digite 10 números</h1>
+<form action="index.php" method="POST">
+    <?php for ($i = 1; $i <= 10; $i++): ?>
+        <label for="numero<?php echo $i; ?>">Número <?php echo $i; ?>:</label>
+        <input type="number" id="numero<?php echo $i; ?>" name="numero<?php echo $i; ?>" required><br><br>
+    <?php endfor; ?>
+
+    <h2>Digite um número para multiplicar todos os valores:</h2>
+    <label for="multiplicador">Multiplicador:</label>
+    <input type="number" id="multiplicador" name="multiplicador" required><br><br>
+
+    <input type="submit" value="Enviar">
+</form>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $numeros = [];
+    $multiplicador = intval($_POST['multiplicador']);
+    $resultados = [];
+    
+    for ($i = 1; $i <= 10; $i++) {
+        $numero = intval($_POST["numero$i"]);
+        $numeros[] = $numero;
+        $resultados[] = $numero * $multiplicador;
+    }
+    
+    echo "<h2>Resultados:</h2>";
+    echo "Multiplicando cada número do vetor pelo número " . $multiplicador . ":<br>";
+    foreach ($numeros as $index => $numero) {
+        echo "Número " . $numero . " multiplicado por " . $multiplicador . " é: " . $resultados[$index] . "<br>";
+    }
+}
+?>
+</body>
+</html>
